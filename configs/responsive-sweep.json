@@ -1,0 +1,9 @@
+{
+  "enabledPreset": "DEEP",
+  "start": 320,
+  "end": 1920,
+  "step": 50,
+  "height": 900,
+  "settleMs": 100,
+  "notes": "Width-only continuity sweep. Device context transitions are covered by the main viewport matrix, not by this sweep."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "melody4you",
+  "matchHosts": ["melody4you.ru", "www.melody4you.ru"],
+  "brand_positioning": "premium commercial personalized music gift service",
+  "visual_style": ["cinematic", "emotional", "premium", "non-generic", "agency-grade"],
+  "target_audience": "people buying emotionally meaningful custom songs as gifts",
+  "tone": ["warm", "premium", "emotionally strong", "trustworthy"],
+  "premium_level": "high",
+  "image_style": ["authentic emotion", "visual diversity", "strong focal point", "careful human framing"],
+  "forbidden_visual_patterns": ["repeated faces or apparent subject types", "monotonous studio imagery", "head/face crop", "generic stock feel", "weak text-safe area", "repetitive compositions"],
+  "preferred_visual_patterns": ["cinematic environmental portrait", "emotional event scene", "detail shot", "varied genre-specific imagery", "clear text-safe compositions"],
+  "commercial_priorities": ["clear 50/50 payment presentation", "prominent primary CTA", "premium gift positioning", "trust", "price legibility", "personal versus corporate product distinction"],
+  "brand_colors": [],
+  "reference_sites": []
+}

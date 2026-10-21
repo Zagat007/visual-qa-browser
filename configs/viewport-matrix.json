@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "viewports": {
+    "desktop-1920": {
+      "width": 1920,
+      "height": 1080,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "orientation": "landscape"
+    },
+    "desktop-1600": {
+      "width": 1600,
+      "height": 900,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "orientation": "landscape"
+    },
+    "desktop-1440": {
+      "width": 1440,
+      "height": 900,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "orientation": "landscape"
+    },
+    "desktop-1366": {
+      "width": 1366,
+      "height": 768,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "orientation": "landscape"
+    },
+    "desktop-1280": {
+      "width": 1280,
+      "height": 800,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "orientation": "landscape"
+    },
+    "tablet-1180": {
+      "width": 1180,
+      "height": 820,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": true,
+      "orientation": "landscape"
+    },
+    "tablet-1024": {
+      "width": 1024,
+      "height": 768,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": true,
+      "orientation": "landscape"
+    },
+    "tablet-834": {
+      "width": 834,
+      "height": 1194,
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "tablet-768": {
+      "width": 768,
+      "height": 1024,
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-430": {
+      "width": 430,
+      "height": 932,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-414": {
+      "width": 414,
+      "height": 896,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-390": {
+      "width": 390,
+      "height": 844,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-375": {
+      "width": 375,
+      "height": 812,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-360": {
+      "width": 360,
+      "height": 800,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-320": {
+      "width": 320,
+      "height": 568,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "portrait"
+    },
+    "mobile-844-landscape": {
+      "width": 844,
+      "height": 390,
+      "heightSource": "implementation-default",
+      "deviceScaleFactor": 2,
+      "isMobile": true,
+      "hasTouch": true,
+      "orientation": "landscape"
+    }
+  },
+  "presets": {
+    "QUICK": [
+      "desktop-1440",
+      "mobile-390"
+    ],
+    "STANDARD": [
+      "desktop-1440",
+      "tablet-1024",
+      "tablet-768",
+      "mobile-430",
+      "mobile-390",
+      "mobile-360"
+    ],
+    "FULL_VIEWPORTS": [
+      "desktop-1920",
+      "desktop-1600",
+      "desktop-1440",
+      "desktop-1366",
+      "desktop-1280",
+      "tablet-1180",
+      "tablet-1024",
+      "tablet-834",
+      "tablet-768",
+      "mobile-430",
+      "mobile-414",
+      "mobile-390",
+      "mobile-375",
+      "mobile-360",
+      "mobile-320",
+      "mobile-844-landscape"
+    ]
+  },
+  "breakpointBoundaries": [
+    768,
+    1024,
+    1180,
+    1280
+  ],
+  "breakpointHeight": 900,
+  "notes": "Heights marked implementation-default were not specified in the handoff. Breakpoint boundaries are configurable audit defaults and must not be treated as source-derived CSS breakpoints without source evidence. DEEP also includes a generic mobile landscape context. Mobile/tablet portrait contexts use DPR 2 as an audit default, not a physical-device identity claim."
+}

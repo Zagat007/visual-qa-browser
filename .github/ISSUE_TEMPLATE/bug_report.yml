@@ -1,0 +1,36 @@
+name: Bug report
+description: A wrong verdict, a crash, a hang, or evidence that does not match the claim
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please audit only sites you own or are authorized to test, and remove
+        personal data from screenshots/evidence before attaching them.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "Visual QA Browser x.y.z, Node 22.x, OS (Windows 11 / Ubuntu 24.04 / macOS …)"
+    validations: { required: true }
+  - type: input
+    id: target
+    attributes:
+      label: Target URL and audit configuration
+      placeholder: "https://example.com — STANDARD preset, modules: SEO, SECURITY"
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Verdict the audit produced
+      options: [PASS, ISSUE, PARTIAL, NOT_VERIFIED, FAILED, "Audit never finished"]
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+      description: What did you expect, what happened instead? Quote BUG/CAND IDs if relevant.
+    validations: { required: true }
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / final-verification.log excerpt
+      render: text

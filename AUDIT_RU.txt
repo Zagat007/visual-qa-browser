@@ -1,0 +1,15 @@
+VISUAL QA BROWSER — АУДИТ ПАКЕТА
+Текущий релиз: Visual QA Browser v1.2.0. Публичный исходный код подготовлен из пакета v1.1.9 r24.
+
+Актуальные документы для независимого агента:
+- AGENT_AUDIT_HANDOFF_R24.md
+- AGENT_AUDIT_PROMPT_R24.txt
+- AGENT_AUDIT_CHECKLIST_R24.md
+- docs/R24_LIGHTHOUSE_TEST_BOUNDARY.md
+- docs/R23_WINDOWS_TYPECHECK_FIX.md — сохранённый strict-TypeScript baseline
+- docs/R22_STARTUP_SELF_HEAL.md — сохранённый first-run self-heal
+- docs/R21_LIGHTHOUSE_ISOLATION.md — сохранённая архитектура Lighthouse isolation
+
+R23 и более ранние handoff/документы сохранены как история и baseline отдельных подсистем, но текущий критерий запуска — r24.
+
+Главное правило: NOT RUN / NOT VERIFIED никогда не считать PASS. Финальный Windows PASS допустим только после фактического полного VERIFY на целевой машине.

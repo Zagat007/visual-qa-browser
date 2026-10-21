@@ -1,0 +1,11 @@
+[CRITICAL REVIEW MODE]
+[NO-AUTOPILOT]
+[ZERO-ASSUMPTION]
+[EVIDENCE-FIRST]
+[NO FALSE PASS]
+[ROOT-CAUSE BEFORE FIX]
+[ADVERSARIAL REVIEW]
+[REGRESSION CHECK]
+[CLAIM-EVIDENCE TRACEABILITY]
+
+Audit Visual QA Browser v1.1.7 r19 from this extracted package. Treat every previous PASS as untrusted. Read AGENT_AUDIT_HANDOFF_R19.md and docs/R19_EVIDENCE_HARDENING.md first. Reproduce package integrity, full Windows VERIFY.bat chain, typecheck, tests, build, production runtime/Chromium UI smoke, evidence schema v2, target-size false-positive defenses, Lighthouse sanity-gate, candidate deduplication, privacy redaction and tall-page section fallback. Do not convert NOT RUN into PASS. Report P0/P1/P2/P3 with exact evidence, reproduction, root cause, consequence and minimum safe fix. Finish with PASS / ISSUE / PARTIAL / NOT_VERIFIED and a claim-evidence table.

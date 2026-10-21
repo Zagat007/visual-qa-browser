@@ -1,0 +1,24 @@
+# r21 independent audit checklist
+
+- [ ] Clean Windows extraction; Node >=22.19.0
+- [ ] Package manifest/provenance exact-set integrity PASS
+- [ ] `RUN.bat` / `VERIFY.bat` final PASS
+- [ ] TypeScript PASS
+- [ ] Vitest PASS
+- [ ] Build PASS including `dist/server/lighthouse-worker-entry.js`
+- [ ] Production server + Chromium UI smoke PASS
+- [ ] Lighthouse runs in a separate child process
+- [ ] Cancel during active Lighthouse returns promptly and job becomes CANCELLED
+- [ ] Main UI/API remains responsive while the Lighthouse worker is deliberately stalled
+- [ ] No orphan worker/Chrome processes after cancel/timeout
+- [ ] `STOP.bat` during Lighthouse kills the validated owned backend tree + descendants only
+- [ ] Fresh audit can start after cancellation without app restart
+- [ ] Per-run timeout fails fast and does not repeat doomed runs
+- [ ] Weighted progress does not remain stuck near 96% after timeout
+- [ ] Safe Mode allows only GET/HEAD/OPTIONS
+- [ ] Special-use IPv4/IPv6 blocked
+- [ ] Destructive GET/HEAD routes blocked without false-blocking safe history/help pages
+- [ ] Candidate findings cannot elevate target verdict
+- [ ] Evidence manifest schema v3 and external redaction verified
+- [ ] Fix Bridge apply/rollback adversarial tests PASS
+- [ ] No unexplained skipped checks; NOT RUN != PASS

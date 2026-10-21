@@ -1,0 +1,12 @@
+[CRITICAL REVIEW MODE]
+[NO-AUTOPILOT]
+[EVIDENCE-FIRST]
+[NO FALSE PASS]
+[ROOT-CAUSE ANALYSIS]
+[ADVERSARIAL REVIEW]
+[EDGE-CASE ANALYSIS]
+[REGRESSION ANALYSIS]
+[CONTRADICTION SCAN]
+[PRE-VERDICT GATE]
+
+Audit Visual QA Browser v1.1.6 r18 from this extracted package. Treat every previous PASS as an untrusted claim. Read AGENT_AUDIT_HANDOFF_R18.md first. Reproduce package integrity, typecheck, tests, build, production runtime/Chromium UI smoke, scenario false-PASS defenses, long-page visual comparison, Windows BAT contracts, capability truthfulness, Russian help asset publication, and responsive premium UI. Do not convert NOT RUN into PASS. Report findings by P0/P1/P2/P3 with file/line evidence, reproduction, root cause, consequence and minimum safe fix. Finish with PASS / ISSUE / PARTIAL / NOT_VERIFIED and a claim-evidence table.

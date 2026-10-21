@@ -1,0 +1,238 @@
+VISUAL QA BROWSER v1.2.0 — РУССКИЙ СПРАВОЧНИК
+
+Новое в r21: Lighthouse выполняется в отдельном Node child process. Даже если Lighthouse/Chrome зависнет, основной UI/API должен остаться отзывчивым; отмена имеет внешний heartbeat watchdog и PID-точное завершение worker/Chrome tree. Первый hard timeout прекращает дальнейшие doomed performance-прогоны и аудит переходит к отчёту. Сохраняются все r20 Safe Mode/evidence/verdict guardrails.
+
+Новое в r18: раздел «До / после» сохраняет утверждённый локальный эталон завершённого аудита и сравнивает пиксели при одинаковых URL, ОС, Chromium и viewport. Различия являются кандидатом на ручной просмотр, не автоматическим BUG. Раздел «Проверка сценария» исполняет явные безопасные шаги и сохраняет локальные скриншоты и trace. Подробности: docs/R15_VISUAL_SCENARIOS.md.
+
+В r18 дополнительно:
+- Fix Bridge на 320–390 px больше не схлопывает заголовок в узкую колонку; вторичный текст стал контрастнее и читаемее;
+- скрытый или opacity:0 элемент не может дать PASS в пользовательском сценарии; assertions ждут видимость/текст до 3 секунд;
+- PARTIAL и NOT_VERIFIED нельзя утверждать как эталон;
+- длинные full-page screenshots сравниваются порциями; для очень больших снимков ratio считается полностью, а тяжёлая общая diff-карта может быть пропущена для защиты памяти;
+- русский справочник публикуется вместе с frontend и открывается из интерфейса;
+- визуальные модули получили единый premium UI и русские подсказки.
+
+==================================================
+1. НАЗНАЧЕНИЕ
+==================================================
+Visual QA Browser — локальная evidence-driven QA-станция. Она разделяет:
+
+TECHNICAL QA = проверяемые факты и technical verdict.
+AI ART DIRECTION = профессиональная advisory-оценка по rubric.
+
+AI Art Direction никогда не меняет technical PASS/ISSUE/PARTIAL/FAILED/NOT_VERIFIED.
+
+==================================================
+2. TECHNICAL QA
+==================================================
+Режимы: FULL, Visual, Responsive, Forms, Interactions, Runtime, Accessibility, SEO, Passive Security, Performance, Custom.
+
+Viewport: QUICK / STANDARD / DEEP / SELECTED / CUSTOM.
+DEEP включает breakpoint triads -1/0/+1 и расширенный responsive coverage.
+
+Мощность: ЭКО / НОРМАЛЬНЫЙ / FAST / MAX.
+Мощность меняет параллельность, но не критерии PASS, Safe Mode или выбранный scope.
+
+Forms/Interactions: KEY / ALL.
+
+Performance: Lighthouse = LAB measurement. r21: measurement выполняется в изолированном дочернем процессе; 120s/run deadline + внешний heartbeat watchdog защищают control plane от зависания. После hard timeout performance становится неполным и дальнейшие doomed runs пропускаются; это не field/RUM.
+
+==================================================
+3. SAFE MODE
+==================================================
+Safe Mode включён по умолчанию и не должен ослабляться ради прохождения теста.
+
+Он блокирует/контролирует:
+- destructive methods;
+- опасные GET patterns;
+- private/link-local/metadata destinations;
+- WebSocket traffic;
+- небезопасные interaction candidates.
+
+NO EVIDENCE -> NO PASS.
+NO COVERAGE -> NO FULL PASS.
+
+==================================================
+4. ПРОГРЕСС / ОЧЕРЕДЬ / ОСТАНОВКА
+==================================================
+0-100% отражает реальные stages. 100% допустим только после формирования результата/report.
+
+После crash/restart незавершённый RUNNING job не запускается автоматически: он становится NOT_VERIFIED.
+
+Если audit не сообщает progress слишком долго, watchdog завершает его без PASS и освобождает очередь.
+
+Остановить аудит: кнопка в UI. Она отменяет browser work и внешний AI-request одним parent AbortSignal.
+
+Если UI/backend ведёт себя ненормально: DIAGNOSE.bat показывает health, instanceId, queue, active/controller jobs, owner порта и Node processes.
+
+==================================================
+5. WINDOWS INSTANCE OWNERSHIP
+==================================================
+Каждая папка установки получает deterministic instanceId от полного пути.
+START.bat запускает Node с --vqb-instance=<id>.
+
+STOP.bat не убивает node.exe по имени или только по порту. Сначала PID/command line/installation marker подтверждают принадлежность этой установке, затем завершается только её owned process tree, включая Lighthouse/Chrome descendants. Adobe/другие Node processes не должны затрагиваться.
+
+Не запускайте одновременно несколько копий Visual QA Browser на порту 4210.
+
+==================================================
+6. AI ART DIRECTOR / PREMIUM VISUAL REVIEW
+==================================================
+AI Art Director — отдельный ADVISORY ONLY слой после deterministic evidence collection.
+
+Слои:
+- Premium Quality Review;
+- Image Quality & Variety;
+- Semantic Image Fit;
+- Visual Hierarchy;
+- Typography & Spacing;
+- Emotional Fit;
+- Conversion Review;
+- Cross-Section;
+- Cross-Page;
+- Mobile;
+- Desktop.
+
+Режимы глубины: ECONOMY / STANDARD / DEEP.
+
+Brand profile: AUTO / MELODY4YOU / GENERIC.
+Melody profile задаётся data/config, а не хардкодом универсального engine.
+
+==================================================
+7. PROVIDERS
+==================================================
+MANUAL / CHATGPT EXPORT — не отправляет screenshot/evidence внешнему AI. Формируются local evidence, prompt и Image Review Board.
+
+OPENAI VISION — explicit opt-in. Для автоматического review нужны обе process environment variables:
+- OPENAI_API_KEY
+- OPENAI_ART_DIRECTOR_MODEL
+
+Model ID намеренно не захардкожен. Используйте vision-capable Responses API model, доступный вашей конфигурации.
+
+Ключ не вводится в UI и не сохраняется в report/evidence.
+
+Если provider отсутствует/падает, Technical QA продолжает работать; Art Direction получает NOT_CONFIGURED/FAILED/PARTIAL, а technical verdict не меняется.
+
+==================================================
+8. ART DIRECTION SCORE
+==================================================
+Primary: 0-100. Дополнительно показывается X.X/10.
+
+Полная rubric:
+Hierarchy 15
+Typography 10
+Spacing & rhythm 10
+Image quality 10
+Image semantic fit 10
+Image variety 10
+Composition 10
+Brand consistency 10
+Premium perception 10
+Conversion presentation 5
+
+Score вычисляется локально приложением.
+Если пользователь выключил часть analysis layers, соответствующие dimensions = N/A, а overall нормализуется только по реально включённым weighted dimensions. Это partial rubric, а не false full score.
+
+Score = advisory evaluation, не объективная истина.
+
+==================================================
+9. RECOMMENDATIONS
+==================================================
+Каждый finding должен отвечать: ГДЕ -> ЧТО -> ПОЧЕМУ -> КАК -> EXPECTED IMPROVEMENT.
+
+Confidence: HIGH / MEDIUM / LOW.
+Priority: STRONGLY_RECOMMENDED / SHOULD_CONSIDER / OPTIONAL_POLISH.
+P0/P1/P2/P3 для subjective art advice не используются.
+
+Фильтруются:
+- evidence-free/generic advice;
+- duplicate findings;
+- disabled layers;
+- unsafe LOW-confidence priorities;
+- identity-recognition claims;
+- неподтверждённые numeric conversion promises.
+
+Общие причины кластеризуются как ROOT-ART-*.
+
+==================================================
+10. HUMAN OVERRIDE
+==================================================
+Для recommendation доступны:
+ACCEPT / REJECT / IGNORE / SAVE FOR LATER.
+
+Это локальное состояние report. Оно никогда автоматически не изменяет audited website.
+
+==================================================
+11. PRIVACY EXTERNAL AI
+==================================================
+Private/auth/session/magic-link URL внешнему AI в v1.1.9 не отправляются.
+Likely email/phone PII в rendered DOM блокирует external upload.
+URL evidence для AI удаляет query/hash и data/blob payloads, чтобы signed tokens не уходили наружу.
+Website text передаётся как UNTRUSTED WEBSITE EVIDENCE и не может менять trusted provider instructions.
+
+ВАЖНО: screenshot-level PII blur не реализован. PII может быть нарисован внутри публичного изображения и не обнаружиться DOM-filter. Это остаточный риск. Для чувствительных страниц используйте MANUAL/local workflow.
+
+==================================================
+12. REPORT / OUTPUTS
+==================================================
+report.html — русский technical + advisory report.
+defects.json — normalized technical findings.
+root-cause-hypotheses.json — группы гипотез по похожим проявлениям; это не доказанные первопричины.
+gpt-fix-prompt.txt — technical remediation prompt.
+gpt-premium-fix-prompt.txt — technical + Art Direction prompt.
+art-direction.json — advisory result.
+art-direction-evidence.json — sanitized semantic/evidence package.
+art-direction-prompt.txt — manual rubric prompt.
+image-review-board.html — contact sheet основных visual evidence.
+
+==================================================
+13. ЧЕСТНЫЕ ОГРАНИЧЕНИЯ v1.2.0 live-scope
+==================================================
+- Source/static trusted audit требует отдельного source input.
+- Visual regression реализован локально: locked baseline + pixel diff; динамический контент и несовпадающие browser/viewport условия требуют ручной оценки.
+- Full-site crawler отсутствует.
+- Cross-page на evidence одного URL = PARTIAL / NOT VERIFIED.
+- Full Firefox/WebKit release scope отсутствует.
+- Playwright WebKit не равен real Safari PASS.
+- Private/auth external AI review отключён.
+- Screenshot-level PII blur отсутствует.
+- Complete SSRF immunity не заявляется без network-layer isolation/IP pinning.
+
+==================================================
+14. WINDOWS WORKFLOW
+==================================================
+Чистая новая папка -> INSTALL.bat -> VERIFY.bat -> START.bat.
+
+PASS Visual QA Browser runtime разрешён только после:
+[PASS] All selftests passed.
+
+При проблеме: DIAGNOSE.bat.
+Для остановки: STOP.bat из той же installation folder.
+
+==================================================
+CHATGPT FIX BRIDGE — r21
+==================================================
+
+Назначение: максимально сократить ручные действия между найденным дефектом и исправлением проекта, оставляя проектирование правок за ChatGPT.
+
+1. Один раз укажите «Папка проекта». Путь хранится локально в браузере Visual QA Browser.
+2. После завершённого аудита нажмите «Собрать Fix Pack для ChatGPT».
+3. Приложите полученный VQB-CHATGPT-FIX-PACK-*.zip в чат с ChatGPT и напишите «го».
+4. ChatGPT возвращает VQB-FIX-*.zip по встроенной в Fix Pack спецификации.
+5. Выберите этот ZIP в блоке «Применить мой Fix Package» и нажмите «Применить исправления».
+6. Программа проверит manifest + fingerprint + SHA-256 и выполнит только неисполняющий precheck. Project scripts, build, tests и исходный код автоматически не запускаются: временная папка не является OS sandbox.
+7. После precheck программа создаст integrity-guarded backup и применит только разрешённые replace/create. Runtime/type/lint/test/build проверяются отдельным доверенным gate; если уже применённое изменение надо отменить — используйте persistent Rollback.
+8. После загрузки исправленного сайта на хостинг нажмите «Live re-check после загрузки».
+
+Защита:
+- `.env`, key/certificate, credential/secret configs, зависимости, `.git`, build/report output и high-confidence literal secrets в Fix Pack не включаются;
+- перед внешней передачей текстовые audit artifacts дополнительно удаляют query/hash из URL и редактируют secret-like JSON fields;
+- весь пакет привязан к fingerprint экспортированного source-snapshot;
+- `replace` разрешён только для файла, который реально присутствовал в source snapshot, и дополнительно сверяет его SHA-256;
+- `create` разрешён только для поддерживаемых source-файлов; delete/rename/shell-команды запрещены;
+- backup manifest и original payload защищены SHA-256; rollback не перезаписывает последующие ручные изменения и доступен после перезапуска UI;
+- обычные побочные файлы test/build остаются во временной verification-копии, а не в рабочем проекте.
+
+Граница доверия: Fix Bridge не исполняет scripts или исходный код проекта автоматически. Это устраняет ложное ощущение sandbox. Полный runtime/build gate выполняется отдельно в доверенной среде.
+
+Ограничение: этот конкретный чат ChatGPT нельзя физически встроить в локальное приложение без отдельного API/продуктовой интеграции. Передача одного ZIP в чат и обратного ZIP в приложение остаётся ручной границей.

@@ -1,0 +1,73 @@
+{
+  "name": "visual-qa-browser",
+  "version": "1.2.0",
+  "description": "Local-first, evidence-driven website QA workstation: rendered UI, responsive, runtime, accessibility, SEO, passive security, performance, visual regression and safe user journeys.",
+  "license": "MIT",
+  "author": "Zagat007",
+  "homepage": "https://github.com/Zagat007/visual-qa-browser#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zagat007/visual-qa-browser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zagat007/visual-qa-browser/issues"
+  },
+  "keywords": [
+    "website-qa",
+    "playwright",
+    "lighthouse",
+    "accessibility",
+    "visual-regression",
+    "seo",
+    "safe-mode",
+    "local-first"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,ui \"tsx watch app/backend/src/index.ts\" \"vite --config app/frontend/vite.config.ts\"",
+    "build": "npm run build:frontend && npm run build:publish-frontend && npm run build:server",
+    "start": "node dist/server/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "selftest": "npm run static:check && npm run typecheck && npm test && npm run build",
+    "verify": "node scripts/verify.mjs",
+    "smoke:runtime": "node scripts/runtime-smoke.mjs",
+    "benchmark:accuracy": "node scripts/run-accuracy-benchmark.mjs",
+    "static:sanity": "node scripts/static-sanity.mjs",
+    "static:check": "node scripts/static-sanity.mjs",
+    "provenance:package": "node scripts/create-package-provenance.mjs",
+    "build:frontend": "node scripts/build-frontend.mjs",
+    "build:publish-frontend": "node scripts/publish-frontend-build.mjs",
+    "build:server": "tsup app/backend/src/index.ts app/backend/src/lighthouse-worker-entry.ts --format esm --platform node --target node22 --out-dir dist/server --clean",
+    "integrity:package": "node scripts/verify-package-integrity.mjs"
+  },
+  "dependencies": {
+    "express": "5.1.0",
+    "playwright": "1.55.1",
+    "puppeteer-core": "25.12.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "zod": "4.1.5",
+    "axe-core": "4.13.0",
+    "chrome-launcher": "1.2.1",
+    "lighthouse": "13.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.3",
+    "@types/node": "22.18.1",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
+    "@vitejs/plugin-react": "5.0.2",
+    "concurrently": "9.2.5",
+    "jsdom": "26.1.0",
+    "tsup": "8.5.0",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
+    "vite": "7.3.7",
+    "vitest": "4.1.11"
+  }
+}

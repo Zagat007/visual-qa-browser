@@ -1,0 +1,144 @@
+VISUAL QA BROWSER v1.1.1 r13-HARDENED — INDEPENDENT FINAL AUDIT
+
+[CRITICAL REVIEW MODE]
+[NO-AUTOPILOT]
+[ZERO-ASSUMPTION MODE]
+[EVIDENCE-FIRST]
+[NO FALSE PASS]
+[ROOT-CAUSE ANALYSIS]
+[ADVERSARIAL REVIEW]
+[FAILURE-MODE ANALYSIS]
+[EDGE-CASE ANALYSIS]
+[REGRESSION ANALYSIS]
+[DEPENDENCY IMPACT ANALYSIS]
+[REQUIREMENT TRACEABILITY]
+[CLAIM-EVIDENCE TRACEABILITY]
+[CONTRADICTION SCAN]
+[STRUCTURAL INTEGRITY CHECK]
+[CONSISTENCY CHECK]
+[SCOPE LOCK]
+[MINIMUM-CHANGE LAW]
+[GUARDRAIL INTEGRITY]
+[EVIDENCE FRESHNESS CHECK]
+[SECURITY BOUNDARY REVIEW]
+[PRIVACY LEAK REVIEW]
+[WINDOWS FAILURE-MODE REVIEW]
+[FILESYSTEM ATOMICITY REVIEW]
+[ZIP ADVERSARIAL REVIEW]
+[ROLLBACK INTEGRITY REVIEW]
+[PROVENANCE REPRODUCIBILITY REVIEW]
+[PRE-VERDICT GATE]
+[ADVERSARIAL FINAL PASS]
+
+/Principal Audit Architect
+/Principal Full-Stack Engineer
+/Application Security Engineer
+/Windows Runtime Engineer
+/Adversarial QA Reviewer
+/Root Cause Analyst
+/Regression Sentinel
+/Evidence Verifier
+/Privacy Reviewer
+/Release Gatekeeper
+
+TASK
+
+Perform a completely independent deep audit of the supplied Visual QA Browser v1.1.1 r13-HARDENED package.
+
+IMPORTANT:
+- Do NOT trust README, previous PASS claims, R13_REAUDIT, R13_VERIFICATION, provenance or any prior agent output as proof.
+- The extracted package and observed runtime behavior are the source of truth.
+- First audit; do not repair during the initial evidence pass.
+- NOT RUN = NOT VERIFIED.
+- NO EVIDENCE = NO PASS.
+- If runtime is available, static source inspection alone is insufficient.
+- Use disposable temp projects for destructive/security testing. Never use the user's real project.
+
+PRIMARY GOAL
+
+Determine whether r13 is safe, correct, internally consistent and release-ready on Windows, with special emphasis on ChatGPT Fix Bridge and regression safety of the existing Visual QA Browser.
+
+MANDATORY READING
+
+Read `AGENT_AUDIT_HANDOFF_R13.md` first and execute the complete audit scope described there. It defines the threat model, expected behavior, adversarial matrix, Windows commands and final report schema.
+
+MANDATORY WINDOWS COMMANDS
+
+From a freshly extracted directory with Node.js >=22.19.0:
+
+RUN.bat
+VERIFY.bat
+npm.cmd run static:check
+npm.cmd run typecheck
+npm.cmd test
+npm.cmd run build
+npm.cmd run smoke:runtime
+npm.cmd run benchmark:accuracy
+npm.cmd run verify
+
+Preserve output and `final-verification.log`.
+
+MANDATORY SECURITY FOCUS
+
+Physically attempt to break:
+
+1. source secret filtering;
+2. URL/query/hash redaction in all GPT-facing artifacts;
+3. nested gpt-evidence privacy;
+4. legacy standalone GPT handoff privacy;
+5. NO EVIDENCE → NO FIX PACK;
+6. returned ZIP schema and parser;
+7. traversal/absolute/ADS/Windows reserved paths;
+8. symlink escape;
+9. stale-source and source-membership locks;
+10. case-insensitive operation/archive collisions;
+11. unsupported create/binary executable creation;
+12. prevention of automatic project/package/source code execution;
+13. structural precheck before mutation;
+14. backup payload + manifest integrity;
+15. atomic replace behavior under Windows-like file lock;
+16. emergency rollback under partial apply failure;
+17. concurrent external edit during emergency rollback;
+18. persistent rollback after UI/app restart;
+19. resumable interrupted rollback;
+20. rollback protection against later edits;
+21. ZIP CRC / ZIP64 / multi-disk / encryption / size bounds;
+22. compatibility with ordinary standard DEFLATE ZIP;
+23. project-root switching and stale selected Fix ZIP UI state;
+24. post-deploy live re-check semantics;
+25. regression of the original Visual QA engine.
+
+CRITICAL HISTORICAL REGRESSIONS THAT MUST BE RE-TESTED
+
+- credentials.json / config YAML/INI/TOML hard-coded secrets leaking into Fix Pack;
+- `package.json`/project script being executed automatically by verification;
+- verification writing side-effect files into the real project;
+- backup corruption being accepted;
+- rollback disappearing after restart;
+- post-commit cleanup failure falsely reported as successful emergency rollback;
+- emergency rollback overwriting a third-party concurrent edit;
+- URL query/hash secrets leaking through audit-job or GPT artifacts;
+- nested evidence allowing privacy bypass;
+- case-insensitive ID/archive collisions on Windows;
+- Windows reserved device names;
+- large locally generated evidence PNG being rejected by inbound Fix ZIP limits.
+
+CORE REGRESSION
+
+Run at least one real website audit through the UI. Validate reports, BUG/CAND separation, screenshots/evidence, Safe Mode, responsive checks, runtime/network, forms/interactions, accessibility/SEO, cancellation/progress and AI Art Director separation. Do not claim visual PASS without rendered UI evidence.
+
+FINAL OUTPUT
+
+Return:
+
+1. FINAL VERDICT: ACCEPTED / ACCEPTED WITH P3 ONLY / NOT ACCEPTED / NOT VERIFIED.
+2. Exact coverage: OS, Node/npm, commands, tests, runtime surfaces.
+3. Complete findings table: ID | severity | evidence | reproduction | root cause | consequence | fix | regression test.
+4. Passed gates — only physically verified.
+5. Not-verified gates.
+6. Claim-evidence traceability matrix.
+7. Security verdict for privacy, ZIP, path/symlink, hash binding, no-auto-exec, backup, rollback, Windows behavior.
+8. Regression verdict for the original Visual QA Browser.
+9. Release decision.
+
+Do not use generic praise. Do not suppress failures because previous reports expected PASS. If you find a defect, continue auditing other independent surfaces before concluding.

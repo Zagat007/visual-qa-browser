@@ -1,0 +1,28 @@
+name: Feature request
+description: A new check, workflow improvement, or documentation gap
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Non-goals (see ROADMAP.md): active exploitation, credential attacks,
+        a hosted public scanner, and automatic unreviewed site changes.
+        Requests in those areas will be closed — everything else is welcome.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What real website mistake or workflow pain should this solve?
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+      description: For a new check, give example pages/headers that SHOULD and SHOULD NOT be flagged.
+    validations: { required: true }
+  - type: checkboxes
+    id: volunteer
+    attributes:
+      label: Implementation
+      options:
+        - label: "I would like to implement this myself (guidance welcome)"

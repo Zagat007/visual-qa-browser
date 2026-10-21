@@ -1,0 +1,20 @@
+# r18 compact audit checklist
+- [ ] PACKAGE_MANIFEST hashes valid before verification
+- [ ] VERIFY does not mutate provenance/manifest-covered source
+- [ ] Node >=22.19 gate
+- [ ] npm ci --ignore-scripts
+- [ ] tsc --noEmit
+- [ ] full Vitest suite
+- [ ] production build
+- [ ] runtime/Chromium smoke
+- [ ] /FUNCTIONS_RU.txt returns text guide, not index.html
+- [ ] capabilities: visual regression supported
+- [ ] PARTIAL baseline rejected UI + backend
+- [ ] hidden and opacity:0 assertions do not PASS
+- [ ] delayed DOM insertion + visible/text assertions retry boundedly
+- [ ] long full-page comparison exceeds former 20M case without false NOT_COMPARABLE
+- [ ] Safe Mode / scenario network behavior unchanged
+- [ ] desktop/tablet/mobile UI readable, coherent, no overflow; microcopy remains readable
+- [ ] tooltips explain major modules in Russian
+- [ ] Windows preflight errors persist in final-verification.log
+- [ ] docs/API/UI claims consistent
