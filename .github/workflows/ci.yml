@@ -46,7 +46,34 @@ jobs:
         run: npm run typecheck
 
       - name: Tests
-        run: npm test
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee test-output.log
+
+      - name: Publish test failure output
+        if: failure()
+        shell: bash
+        run: |
+          {
+            echo "## Test failure output (${{ matrix.os }})"
+            echo
+            echo '<details><summary>Last 300 lines of test output</summary>'
+            echo
+            echo '```text'
+            tail -n 300 test-output.log | sed -e 's/\x1b\[[0-9;]*m//g'
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload test output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output-${{ matrix.os }}
+          path: test-output.log
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Production build
         run: npm run build
