@@ -36,6 +36,10 @@ Prepared from the private Windows source package `v1.1.9-r24`.
   0 known vulnerabilities at audit time.
 
 ### Fixed
+- Fix Bridge binding now canonicalizes project paths before HMAC signing, so
+  Windows 8.3 short names (for example `RUNNER~1`) or alias paths cannot make
+  a same-directory package fail with `SOURCE_PROJECT_MISMATCH`. Directory seals
+  signed before the target directory is created remain stable.
 - `scripts/runtime-smoke.mjs` used selectors that never matched the shipped
   UI (a heading named `Visual QA Browser`, although the product name is brand
   text and the H1 is «Проверка сайта без ложного PASS.»; and an exact

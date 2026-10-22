@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { decryptCheckpointSecret, encryptCheckpointSecret } from '../audit-engine/privacy/secret-store';
+import { decryptCheckpointSecret, encryptCheckpointSecret, signWorkspaceSnapshot } from '../audit-engine/privacy/secret-store';
 
 const roots: string[] = [];
 afterEach(async () => Promise.all(roots.splice(0).map((root) => fs.rm(root, { recursive: true, force: true }))));
@@ -24,5 +24,27 @@ describe('checkpoint secret store', () => {
     const payloads = await Promise.all(secrets.map((secret) => encryptCheckpointSecret(root, secret)));
     const restored = await Promise.all(payloads.map((payload) => decryptCheckpointSecret(root, payload)));
     expect(restored).toEqual(secrets);
+  });
+
+  it('signs the canonical target when a project is addressed through an alias path', async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'vqb-sign-'));
+    roots.push(root);
+    const project = path.join(root, 'project');
+    await fs.mkdir(project, { recursive: true });
+    const alias = path.join(root, 'project-alias');
+    await fs.symlink(project, alias, process.platform === 'win32' ? 'junction' : 'dir');
+    const fingerprint = 'a'.repeat(64);
+    await expect(signWorkspaceSnapshot(root, alias, fingerprint))
+      .resolves.toBe(await signWorkspaceSnapshot(root, project, fingerprint));
+  });
+
+  it('keeps a seal stable for a directory that does not exist yet at signing time', async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'vqb-sign-leaf-'));
+    roots.push(root);
+    const planned = path.join(root, 'planned-baseline');
+    const fingerprint = 'b'.repeat(64);
+    const beforeCreate = await signWorkspaceSnapshot(root, planned, fingerprint);
+    await fs.mkdir(planned);
+    await expect(signWorkspaceSnapshot(root, planned, fingerprint)).resolves.toBe(beforeCreate);
   });
 });

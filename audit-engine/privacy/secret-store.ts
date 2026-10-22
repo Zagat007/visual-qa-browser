@@ -45,10 +45,31 @@ async function loadOrCreateKey(rootDir: string): Promise<Buffer> {
   }
 }
 
+/**
+ * Resolve a path to the canonical form used for signing. Existing paths go
+ * through realpath (expanding symlinks, junctions and Windows 8.3 short
+ * names such as RUNNER~1). A not-yet-created leaf (e.g. a baseline directory
+ * sealed before its atomic rename) is canonicalized through its nearest
+ * existing parent, so the seal still verifies after the leaf exists.
+ */
+async function canonicalPathForSigning(value: string): Promise<string> {
+  const absolute = path.resolve(value);
+  try {
+    return await fs.realpath(absolute);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code !== 'ENOENT' && code !== 'ENOTDIR') throw error;
+    const parent = path.dirname(absolute);
+    if (parent === absolute) return absolute;
+    return path.join(await canonicalPathForSigning(parent), path.basename(absolute));
+  }
+}
+
 /** Bind an exported source snapshot to this installation and canonical project path. */
 export async function signWorkspaceSnapshot(rootDir: string, canonicalProjectRoot: string, fingerprint: string): Promise<string> {
   const key = await loadOrCreateKey(rootDir);
-  const root = process.platform === 'win32' ? canonicalProjectRoot.toLowerCase() : canonicalProjectRoot;
+  const canonical = await canonicalPathForSigning(canonicalProjectRoot);
+  const root = process.platform === 'win32' ? canonical.toLowerCase() : canonical;
   return crypto.createHmac('sha256', key).update('vqb-fix-source-v2\0').update(root).update('\0').update(fingerprint).digest('hex');
 }
 
