@@ -103,7 +103,20 @@ describe('real guarded Lighthouse', () => {
       // JobManager publishes 100% only after this report-producing call returns.
       expect(progress.at(-1)).toMatchObject({ stage: 'report', completedSteps: 33, totalSteps: 34 });
       expect(fixtureRequests).toBeGreaterThanOrEqual(3);
-      expect(performance.auditStatus).toBe('PASS');
+      expect(performance.auditStatus, `Performance evidence was not valid for a verdict: ${JSON.stringify({
+        auditStatus: performance.auditStatus,
+        validRuns: performance.validRuns,
+        validForVerdict: performance.validForVerdict,
+        measurementSanity: performance.measurementSanity,
+        runs: performance.runs.map((run) => ({
+          run: run.run,
+          status: run.status,
+          error: run.error ?? null,
+          sanity: run.sanity,
+          safety: run.safety,
+          metrics: run.metrics,
+        })),
+      }, null, 2)}`).toBe('PASS');
       expect(performance.validRuns).toBe(3);
       expect(performance.validForVerdict).toBe(true);
       expect(performance.median.performanceScore).not.toBeNull();
