@@ -17,7 +17,11 @@ afterEach(async () => {
 });
 
 async function setup() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'vqb-r14-'));
+  // Canonicalize once: production code resolves project roots through
+  // fs.realpath, while os.tmpdir() may hand out an alias form (notably the
+  // Windows 8.3 short name RUNNER~1 on GitHub runners). Path-string
+  // comparisons in the concurrency mocks below must see the same form.
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'vqb-r14-')));
   roots.push(root);
   const project = path.join(root, 'project');
   await fs.mkdir(path.join(project, 'src'), { recursive: true });
