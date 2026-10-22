@@ -65,6 +65,11 @@ jobs:
             echo '```'
             echo '</details>'
           } >> "$GITHUB_STEP_SUMMARY"
+          excerpt=$(tail -n 120 test-output.log | sed -e 's/\x1b\[[0-9;]*m//g')
+          excerpt=${excerpt//'%'/'%25'}
+          excerpt=${excerpt//$'\r'/'%0D'}
+          excerpt=${excerpt//$'\n'/'%0A'}
+          echo "::error title=Test failure output ${{ matrix.os }}::${excerpt}"
 
       - name: Upload test output
         if: failure()
